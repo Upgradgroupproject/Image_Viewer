@@ -30,6 +30,10 @@ class Login extends Component {
 
     constructor() {
         super();
+        /*
+            Login page fields/state declaration -> username,password ,
+                       validation states/text's display initilization as "dispNone"  
+        */
         this.state = {
             usernameRequired: "dispNone",
             username: "",
@@ -41,6 +45,9 @@ class Login extends Component {
     }
 
     loginClickHandler = () => {
+        /*
+           check user-entry for Mandatory fields username and password 
+        */
         this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
         this.state.loginPassword === "" ? this.setState({ loginPasswordRequired: "dispBlock" }) : this.setState({ loginPasswordRequired: "dispNone" });
         
@@ -48,6 +55,12 @@ class Login extends Component {
         let password = "password123";
         const userAcessToken = "8998502401.7fed2c7.a14d53ddd2de41c2b79a087237da6c04";
         
+        /*
+            username and password VALIDATION
+            -> valid credentials set acess-token for session,
+               renders home page
+            -> invalid displays text for invalid credentials
+        */
         if(this.state.loginPassword === password && this.state.username === username)
         {
             this.setState({
@@ -85,8 +98,6 @@ class Login extends Component {
                 <Header baseUrl={this.props.baseUrl} />
 
                 <div className="flex-container">
-                    
-                    {/* <div > */}
                         <Card className={classes.loginCard}>
                             <CardContent >
                                 <FormControl>
@@ -122,7 +133,6 @@ class Login extends Component {
                                 <Button variant="contained" color="primary" onClick={this.loginClickHandler}>LOGIN</Button>   
                             </CardContent>
                         </Card>
-                    {/* </div> */}
                 </div>
             </div >
         )
