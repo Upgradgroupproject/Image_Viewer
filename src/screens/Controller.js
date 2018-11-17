@@ -25,10 +25,8 @@ class Controller extends Component {
           )} baseUrl={this.baseUrl} /> */}
 
           <Route path='/profile' render={ (props) => (
-            sessionStorage.getItem("access-token") === null? <Login  {...props}/> : <Profile {...props} />
-          )} baseUrl={this.baseUrl} />
-          
-
+            sessionStorage.getItem("access-token") === null? <Login  {...props}/>:<Profile {...props}/>
+            )} baseUrl={this.baseUrl} />
         </div>
       </Router>
     )
