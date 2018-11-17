@@ -30,6 +30,10 @@ class Login extends Component {
 
     constructor() {
         super();
+        /*
+            Login page fields/state declaration -> username,password ,
+                       validation states/text's display initilization as "dispNone"  
+        */
         this.state = {
             usernameRequired: "dispNone",
             username: "",
@@ -40,31 +44,10 @@ class Login extends Component {
         }
     }
 
-    componentWillMount() {
-        //get request
-        // let data = null;
-        // let xhr = new XMLHttpRequest();
-        // let that = this;
-        // xhr.addEventListener("readystatechange", function () {
-        //     if (this.readyState === 4) {
-        //         that.setState({
-        //             upcomingMovies: JSON.parse(this.responseText).movies
-        //         });
-        //     }
-        // });
-
-        // xhr.open("GET", this.props.baseUrl + "movies?status=PUBLISHED");
-        // xhr.setRequestHeader("Cache-Control", "no-cache");
-        // xhr.send(data);
-    }
-
-    
-
-    movieClickHandler = (movieId) => {
-        this.props.history.push('/movie/' + movieId);
-    }
-
     loginClickHandler = () => {
+        /*
+           check user-entry for Mandatory fields username and password 
+        */
         this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
         this.state.loginPassword === "" ? this.setState({ loginPasswordRequired: "dispBlock" }) : this.setState({ loginPasswordRequired: "dispNone" });
         
@@ -72,29 +55,20 @@ class Login extends Component {
         let password = "password123";
         const userAcessToken = "8998502401.7fed2c7.a14d53ddd2de41c2b79a087237da6c04";
         
+        /*
+            username and password VALIDATION
+            -> valid credentials set acess-token for session,
+               renders home page
+            -> invalid displays text for invalid credentials
+        */
         if(this.state.loginPassword === password && this.state.username === username)
         {
-        
-        
-        // let dataLogin = null;
-        // let xhrLogin = new XMLHttpRequest();
-        // let that = this;
-        // xhrLogin.addEventListener("readystatechange", function () {
-        //     if (this.readyState === 4) {
-
-        //        that.setState({
-                  this.setState({
-                    loggedIn: true,
-                    invalidCredential: "dispNone"
-                });
-        //    }
-        // });
-        sessionStorage.setItem("access-token", userAcessToken);
-        //xhrLogin.open("GET", this.props.baseUrl + "/users/self/media/recent/?access_token=" + userAcessToken);
-        //xhrLogin.send(dataLogin);
-        this.props.history.push({
-            pathname: '/home'
-        })
+            this.setState({
+                loggedIn: true,
+                invalidCredential: "dispNone"
+            });
+            sessionStorage.setItem("access-token", userAcessToken);
+            this.props.history.push({pathname: '/home'})
         }
 
         else{
@@ -124,8 +98,6 @@ class Login extends Component {
                 <Header baseUrl={this.props.baseUrl} />
 
                 <div className="flex-container">
-                    
-                    {/* <div > */}
                         <Card className={classes.loginCard}>
                             <CardContent >
                                 <FormControl>
@@ -161,7 +133,6 @@ class Login extends Component {
                                 <Button variant="contained" color="primary" onClick={this.loginClickHandler}>LOGIN</Button>   
                             </CardContent>
                         </Card>
-                    {/* </div> */}
                 </div>
             </div >
         )
