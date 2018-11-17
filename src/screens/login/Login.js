@@ -40,30 +40,6 @@ class Login extends Component {
         }
     }
 
-    componentWillMount() {
-        //get request
-        // let data = null;
-        // let xhr = new XMLHttpRequest();
-        // let that = this;
-        // xhr.addEventListener("readystatechange", function () {
-        //     if (this.readyState === 4) {
-        //         that.setState({
-        //             upcomingMovies: JSON.parse(this.responseText).movies
-        //         });
-        //     }
-        // });
-
-        // xhr.open("GET", this.props.baseUrl + "movies?status=PUBLISHED");
-        // xhr.setRequestHeader("Cache-Control", "no-cache");
-        // xhr.send(data);
-    }
-
-    
-
-    movieClickHandler = (movieId) => {
-        this.props.history.push('/movie/' + movieId);
-    }
-
     loginClickHandler = () => {
         this.state.username === "" ? this.setState({ usernameRequired: "dispBlock" }) : this.setState({ usernameRequired: "dispNone" });
         this.state.loginPassword === "" ? this.setState({ loginPasswordRequired: "dispBlock" }) : this.setState({ loginPasswordRequired: "dispNone" });
@@ -74,27 +50,12 @@ class Login extends Component {
         
         if(this.state.loginPassword === password && this.state.username === username)
         {
-        
-        
-        // let dataLogin = null;
-        // let xhrLogin = new XMLHttpRequest();
-        // let that = this;
-        // xhrLogin.addEventListener("readystatechange", function () {
-        //     if (this.readyState === 4) {
-
-        //        that.setState({
-                  this.setState({
-                    loggedIn: true,
-                    invalidCredential: "dispNone"
-                });
-        //    }
-        // });
-        sessionStorage.setItem("access-token", userAcessToken);
-        //xhrLogin.open("GET", this.props.baseUrl + "/users/self/media/recent/?access_token=" + userAcessToken);
-        //xhrLogin.send(dataLogin);
-        this.props.history.push({
-            pathname: '/home'
-        })
+            this.setState({
+                loggedIn: true,
+                invalidCredential: "dispNone"
+            });
+            sessionStorage.setItem("access-token", userAcessToken);
+            this.props.history.push({pathname: '/home'})
         }
 
         else{
