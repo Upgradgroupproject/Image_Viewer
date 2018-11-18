@@ -10,12 +10,21 @@ import EditIcon from '@material-ui/icons/Edit';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
+
+import Divider from '@material-ui/core/Divider';
+import Icon from "@material-ui/core/Icon";
+import Favorite from '@material-ui/icons/Favorite';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
+
+
 const styles = theme => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        overflow: 'hidden',
+        
         backgroundColor: theme.palette.background.paper,
     },
     instaAvatar: {
@@ -23,6 +32,7 @@ const styles = theme => ({
         height: '150px',
         margin: '0 50px'
     },
+
 
     instaProfile: {
         display: 'flex',
@@ -65,11 +75,48 @@ const styles = theme => ({
         boxShadow: theme.shadows[5],
         padding: theme.spacing.unit * 4,
         margin: 'auto',
-        top: '30vh'
+        top: '30vh',
     },
+    paperPost: {
+        position: 'relative',
+        width: '85%',
+        height: '80%',
+        backgroundColor: theme.palette.background.paper,
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing.unit * 2,
+        margin: 'auto',
+        top: '10vh',
+        display: 'flex',
+        
+    },
+
+   postedImage: {
+        position: 'relative',
+        display: 'flex',     
+    },
+
+
     noMargin: {
         margin: '0'
-    }
+    },
+    
+	postContent: {
+		marginLeft: '10px'
+    },
+    postComments: {
+        width: '75%',
+	},
+	
+	addPost: {
+		float: 'right',
+        width: '9%',
+        marginLeft: '-10px'
+    },
+
+	footer: {
+		marginTop: '270px'
+	},
+	
 });
 class Profile extends Component {
     constructor() {
@@ -85,11 +132,18 @@ class Profile extends Component {
             instaFollows: "",
             instaFollowers: "",
             instaUploads: [],
+            imageHashtags:[],
+            imageComments: [],
+            imageLikes:"",
+            imageCaption:"",
+            imageUrl:"",
             open: false,
+            clicked: false
+
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.showModal = this.showModal.bind(this);
+       // this.showModal = this.showModal.bind(this);
     }
 
     handleSubmit(e) {
@@ -109,6 +163,15 @@ class Profile extends Component {
     handleClose = () => {
         this.setState({ open: false });
     };
+
+    handleOpenImage = () => {
+        this.setState({ clicked: true });
+    };
+
+    handleCloseImage = () => {
+        this.setState({ clicked: false });
+    };
+
     componentWillMount() {
         let data = null;
         let xhr = new XMLHttpRequest();
@@ -140,7 +203,8 @@ class Profile extends Component {
                 that.setState({
                     instaUploads: JSON.parse(this.responseText).data,
                     //url: JSON.parse(this.responseText).data.images.standard_resolution.url,
-                    url: JSON.parse(this.responseText).data[0].images.standard_resolution.url
+                    url: JSON.parse(this.responseText).data[0].images.standard_resolution.url,
+                    imageLikes: JSON.parse(this.responseText).data.likes,
                 });
             }
         });
@@ -148,8 +212,35 @@ class Profile extends Component {
         xhrinstaPictures.open("GET", instaendpoint2 + sessionStorage.getItem("access-token"));
         xhrinstaPictures.send(data);
     }
-    showModal(id) {
-        console.log(id);
+
+    likeHandler = (count) => {
+            // check for double click
+            count = count + 1;
+            this.setState({ 
+                
+                likeCount: count
+            })
+        } 
+        
+    addCommentHandler = (comment) => {
+        this.setState({ 
+                
+            comment: comment
+        })
+    }
+
+    imageClickHandler = (image, index) => {
+        var image = this.state.instaUploads[index];
+        var captionReceived = image.caption.text;
+        var captionText = captionReceived.substring(0, captionReceived.indexOf("#"));
+        this.setState({ 
+            
+            clicked: true,
+            imageUrl: image.images.standard_resolution.url,
+            imageHashtags: image.tags,
+            imageCaption: captionText,
+            likeCount: image.likes.count
+        });
     }
     render() {
         const { classes } = this.props;
@@ -157,7 +248,7 @@ class Profile extends Component {
             <div>
                 <Header />
                 <div className={classes.instaProfile}>
-                    <div className={classes.profilePicture}>
+                    <div>
                         <Avatar className={[classes.instaAvatar].join(' ')} src={this.state.instaProfilePicture} alt="profile" />
                     </div>
                     <div>
@@ -174,67 +265,90 @@ class Profile extends Component {
                     </div>
                 </div>
 
+                    <Modal
+                    aria-labelledby="simple-modal-title"
+                    aria-describedby="simple-modal-description"
+                    open={this.state.open}
+                    onClose={this.handleClose}>
+                    <div className={classes.paper}>
+                        <Typography variant="h5" id="modal-title">
+                            Edit
+                    </Typography>
+                        <form autoComplete="off">
+                            <TextField
+                                required={true}
+                                id="standard-name"
+                                label="Full Name"
+                                className={classes.textField}
+                                defaultValue={this.state.instaFullname}
+                                value={this.text}
+                                onChange={this.handleChange}
+                                margin="normal" />
+                            <Button variant="contained" color="primary" onClick={this.handleSubmit}  component="span" className={classes.button} >
+                                UPDATE
+                            </Button>
+                        </form>
+                    </div>
+                </Modal>
                 <div className={[classes.container].join(' ')}>
-                    <GridList cellHeight="570" cols={3}>
+                    <GridList cellHeight={570} cols={3}>
                         {this.state.instaUploads.map((instaImages, index) => (
-                            <GridListTile className={classes.imgFullHeight} key={instaImages.id} onClick={this.showModal('Hey')}>
-                                <img src={instaImages.images.standard_resolution.url} alt="Uploaded Images"/>                                {/* image handler ?*/}
+                            <GridListTile className={classes.imgFullHeight} key={instaImages.id}>
+                                <img src={instaImages.images.standard_resolution.url} alt="Uploaded Images"
+                                onClick={() => this.imageClickHandler(instaImages,index)}/>/>                                {/* image handler ?*/}
                             </GridListTile>
                         ))}
                     </GridList>
                 </div>
 
 
-                <Modal
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                    open={this.state.open}
-                    onClose={this.handleClose}>
-                    <div className={classes.paper}>
-                        <Typography variant="h5" id="modal-title">
-                            Edit
-                    </Typography>
-                        <form autoComplete="off">
-                            <TextField
-                                required="true"
-                                id="standard-name"
-                                label="Full Name"
-                                className={classes.textField}
-                                defaultValue={this.state.instaFullname}
-                                value={this.text}
-                                onChange={this.handleChange}
-                                margin="normal" />
-                            <Button type="submit" value="Submit" onClick={this.handleSubmit} variant="contained" color="primary" component="span" className={classes.button} >
-                                UPDATE
-                            </Button>
-                        </form>
+              <Modal 
+                open={this.state.clicked} 
+                onClose={this.handleCloseImage}>
+                  <div className={classes.paperPost}>
+                      <div className={classes.postedImage}>
+                      <img src={this.state.imageUrl} alt="image"/>
+                      </div>
+
+                      <div className={classes.postContent}>
+                      <div className={classes.marginRight}>
+                      <Avatar src={this.state.instaProfilePicture}/>
+                      <Typography className ={classes.marginLeft}>{this.state.instaUsername}</Typography>
+                      </div>
+                      <Divider />
+                      <Typography variant="subtitle1">
+                            {this.state.imageCaption}
+                      </Typography>
+                        <div >
+                        {this.state.imageHashtags.map((hashtag) => (
+                            <Typography >#{hashtag}</Typography>
+                        ))}
+                        </div>
+                      
+                      <div className={classes.footer}>
+                            <div className={classes.marginRight}>
+                            <Icon onClick={() => this.likeHandler(this.state.likeCount)}>
+                             
+                             <Favorite className="red" fontSize="large"/>
+                             
+                            </Icon>
+                            <Typography className={classes.marginRight}>{this.state.likeCount} likes</Typography>
+                            </div>
+                            <div className={classes.marginRight}>
+                                <FormControl className={classes.postComments}>
+                                        {/* <InputLabel htmlFor="comment">Add a comment</InputLabel>
+                                        <Input id="commentEntered" type="text"
+                                            comment={this.state.comment} /> */}
+
+                                        <InputLabel htmlFor="comment">Add a comment</InputLabel>
+                                        <Input id="comment" type="text" />
+                                    </FormControl> 
+                                    <Button className={classes.addPost} variant="contained" color="primary" onClick={this.addCommentHandler}>Add</Button> 
+                            </div>
+                      </div>
+                      </div>
                     </div>
-                </Modal>
-                <Modal
-                    aria-labelledby="simple-modal-title"
-                    aria-describedby="simple-modal-description"
-                    open={this.state.open}
-                    onClose={this.handleClose}>
-                    <div className={classes.paper}>
-                        <Typography variant="h5" id="modal-title">
-                            Edit
-                    </Typography>
-                        <form autoComplete="off">
-                            <TextField
-                                required="true"
-                                id="standard-name"
-                                label="Full Name"
-                                className={classes.textField}
-                                defaultValue={this.state.instaFullname}
-                                value={this.text}
-                                onChange={this.handleChange}
-                                margin="normal" />
-                            <Button type="submit" value="Submit" onClick={this.handleSubmit} variant="contained" color="primary" component="span" className={classes.button} >
-                                UPDATE
-                            </Button>
-                        </form>
-                    </div>
-                </Modal>
+            </Modal>
             </div >
         )
     }
