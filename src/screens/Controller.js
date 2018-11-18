@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Login from '../screens/login/Login';
-//import Home from '../screens/home/Home';
+import Home from '../screens/home/Home';
 import Profile from '../screens/profile/Profile';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -20,9 +20,9 @@ class Controller extends Component {
           <Route exact path='/login' render={(props) => <Login {...props} baseUrl={this.baseUrl} />} />
           {/* <Route exact path='/Home' render={(props) => <Home {...props} baseUrl={this.baseUrl} />} /> */}
 
-          {/* <Route path='/home' render={ (props) => (
+          <Route path='/home' render={ (props) => (
             sessionStorage.getItem("access-token") === null? <Login  {...props}/> : <Home {...props} />
-          )} baseUrl={this.baseUrl} /> */}
+          )} baseUrl={this.baseUrl} />
 
           <Route path='/profile' render={ (props) => (
             sessionStorage.getItem("access-token") === null? <Login  {...props}/>:<Profile {...props}/>
