@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header from '../../common/header/Header';
+import ProfileHeader from '../../common/header/ProfileHeader';
 import Avatar from '@material-ui/core/Avatar';
 import { withStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
@@ -245,7 +245,7 @@ class Profile extends Component {
         const { classes } = this.props;
         return (
             <div>
-                <Header />
+                <ProfileHeader />
                 <div className={classes.instaProfile}>
                     <div className={classes.profilePicture}>
                         <Avatar className={[classes.instaAvatar].join(' ')} src={this.state.instaProfilePicture} alt="profile" />
@@ -265,7 +265,7 @@ class Profile extends Component {
                 </div>
 
                 <div className={[classes.container].join(' ')}>
-                    <GridList cellHeight="570" cols={3}>
+                    <GridList cellHeight={570} cols={3}>
                         {this.state.instaUploads.map((instaImages) => (
                             <GridListTile
                                 key={instaImages.id}
@@ -287,7 +287,7 @@ class Profile extends Component {
                     </Typography>
                         <form autoComplete="off">
                             <TextField
-                                required="true"
+                                required={true}
                                 id="standard-name"
                                 label="Full Name"
                                 className={classes.textField}
