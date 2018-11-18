@@ -212,6 +212,7 @@ class HomeHeader extends Component {
                       >
                       
                       <MenuItem onClick={this.accountClickHandler}>My account</MenuItem>
+                      <hr></hr>
                       <MenuItem onClick={this.logoutHandler}>Logout</MenuItem>
                         
                       </Menu> 
