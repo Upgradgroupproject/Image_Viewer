@@ -17,6 +17,7 @@ import Button from '@material-ui/core/Button';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import HomeHeader from '../../common/header/HomeHeader';
+import moment from 'moment';
 
 
 const styles = theme => ({
@@ -87,7 +88,7 @@ class Home extends Component {
             <div>
                 <HomeHeader />
                 <div>
-                    <GridList cols={2} cellHeight="950" >
+                    <GridList cols={2} cellHeight={950} >
                         {this.state.instaUploads.map((instaImages) => (
                             <GridListTile key={instaImages.id}>
                                 <Card className={classes.thingy}>
@@ -96,7 +97,9 @@ class Home extends Component {
 
                                         </Avatar>
                                     } title={this.state.instaUsername}
-                                        subheader={instaImages.caption.created_time}>
+                                    
+                                    subheader = {moment(Number(instaImages.created_time)).format("DD/MM/YYYY hh:mm:ss")}>
+                                        
                                     </CardHeader>
 
                                     <CardContent >
