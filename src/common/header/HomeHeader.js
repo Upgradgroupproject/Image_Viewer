@@ -211,7 +211,9 @@ class HomeHeader extends Component {
                         onClose={this.handleClose}
                       >
                       
-                      <MenuItem onClick={this.accountClickHandler}>My account</MenuItem>
+                      <MenuItem onClick={this.accountClickHandler}>
+                      <Link style={{ textDecoration: 'none', color: 'black' }} to="/profile">My Account</Link>
+                      </MenuItem>
                       <hr></hr>
                       <MenuItem onClick={this.logoutHandler}>Logout</MenuItem>
                         
