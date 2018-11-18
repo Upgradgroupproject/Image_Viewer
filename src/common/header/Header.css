@@ -14,3 +14,12 @@
     background: #c0c0c0;
     width: 300px;
 }
+
+.logout-button{
+    margin-left: -10px;
+    color: white; 
+}
+.avatar-floater{
+    display: flex;
+    float: right
+}
