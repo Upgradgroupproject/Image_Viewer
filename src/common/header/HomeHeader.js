@@ -13,7 +13,7 @@ import SearchIcon from '@material-ui/icons/Search';
 const styles = theme => ({
   root: {
     width: '100%',
-    background:'black'
+    background:'#263238',
   },
   grow: {
     flexGrow: 1,
@@ -73,7 +73,7 @@ function HomeHeader(props) {
   return (
     <div className={classes.root} background="black">
       <AppBar position="static">
-        <Toolbar background="black">
+        <Toolbar className={classes.root}>
           <Typography className={classes.title} variant="h6" color="inherit"  noWrap>
             Image Viewer
           </Typography>
