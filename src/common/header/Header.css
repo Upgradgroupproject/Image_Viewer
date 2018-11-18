@@ -21,5 +21,11 @@
 }
 .avatar-floater{
     display: flex;
-    float: right
+    float: right;
+    margin-left: -10px;
 }
+
+.fill-remaining-space {
+    
+    flex: 1 1 auto;
+  }

@@ -12,7 +12,6 @@ import Login from '../../screens/login/Login';
 import { Link } from 'react-router-dom';
 
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 
 
@@ -21,6 +20,10 @@ const multiTheme = createMuiTheme({
       primary: { main: '#263238' }, 
       secondary: { main: '#fff' }, 
     },
+    button: {
+      margin: 'theme.spacing.unit'*3,
+    },
+   
     
   });
 
@@ -81,7 +84,7 @@ class ProfileHeader extends Component {
      
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
         const { anchorEl } = this.state;
         return (
             
@@ -94,7 +97,9 @@ class ProfileHeader extends Component {
                   </Link>
                   </header>
                   
-
+                    <div class="fill-remaining-space"></div>
+                    <div class="fill-remaining-space"></div>
+                    <div class="fill-remaining-space"></div>
                     <div >
                       <IconButton className="logout-button" color='secondary'
                         aria-owns={anchorEl ? 'simple-menu' : undefined}
@@ -103,12 +108,13 @@ class ProfileHeader extends Component {
                         >
                         { <Avatar src={this.state.avatar} alt="profile" /> }
                       </IconButton> 
-                      <Menu
+                      <Menu 
                         id="simple-menu"
                         anchorEl={anchorEl}
                         open={Boolean(anchorEl)}
                         onClose={this.handleClose}
                       >
+                      
                         <MenuItem onClick={this.logoutHandler}>Logout</MenuItem>
                       </Menu> 
 
