@@ -72,12 +72,12 @@ class Home extends Component {
             likeColor: "dark",
             liked: false,
         }
-        //this.handleClick = this.handleClick.bind(this);
-        //this.handleChange = this.handleChange.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
-        //this.handleLike = this.handleLike.bind(this);
-        //this.commentSubmit = this.commentSubmit.bind(this);
-        //this.showModal = this.showModal.bind(this);
+        this.handleClick = this.handleClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleLike = this.handleLike.bind(this);
+        this.commentSubmit = this.commentSubmit.bind(this);
+        this.showModal = this.showModal.bind(this);
     }
 
 
