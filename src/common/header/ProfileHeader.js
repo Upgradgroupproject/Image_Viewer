@@ -25,6 +25,14 @@ const multiTheme = createMuiTheme({
   });
 
 class ProfileHeader extends Component {
+
+
+  constructor() {
+    super();
+    this.state = {
+        user: ""
+    }
+}
   
   state = {
     anchorEl: null,
@@ -44,7 +52,10 @@ class ProfileHeader extends Component {
       ReactDOM.render(<Login />, document.getElementById('root'));
   };
 
-      componentDidMount() {
+
+     
+
+      componentWillMount() {
         
         let data = null;
         let xhr = new XMLHttpRequest();
@@ -67,6 +78,7 @@ class ProfileHeader extends Component {
         xhr.send(data);
     
       }
+     
 
     render() {
         const { classes } = this.props;
@@ -84,19 +96,13 @@ class ProfileHeader extends Component {
                   
 
                     <div >
-                      <IconButton >
-                        {/* { <Avatar src={this.props.avatar} className={classes.avatar} alt="profile" /> } */}
-                      </IconButton> 
-
-                    </div>
-                    <div className= "avatar-floater">
-                    <Button className="logout-button" color='secondary'
+                      <IconButton className="logout-button" color='secondary'
                         aria-owns={anchorEl ? 'simple-menu' : undefined}
                         aria-haspopup="true"
                         onClick={this.handleClick}
-                    >
-                      Avatar
-                    </Button>
+                        >
+                        { <Avatar src={this.state.avatar} alt="profile" /> }
+                      </IconButton> 
                       <Menu
                         id="simple-menu"
                         anchorEl={anchorEl}
@@ -105,6 +111,7 @@ class ProfileHeader extends Component {
                       >
                         <MenuItem onClick={this.logoutHandler}>Logout</MenuItem>
                       </Menu> 
+
                     </div>
                 </Toolbar>
               </AppBar>
